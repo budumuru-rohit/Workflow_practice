@@ -1,40 +1,40 @@
-name:First workflow
+name: First workflow
 on:
   push:
     branches:
-      -master
+      - master
 jobs:
   build:
-    runs-on:windows-latest
+    runs-on: windows-latest
     steps:
-      -name:get code
-       uses:actions/checkout@v3
-      -name:install dependencies
-       run:npm ci
-      -name:upload artifacts
-       uses:actions/upload-artifact@v3
-       with:
-         name:dist-files
-  test:
-    needs:build
-    runs-on:windows-latest
-    steps:
-      -name:get code
-       uses:actions/checkout@v3
-      -name:install dependencies
-       run:npm ci
-      -name:run tests
-       run:npm test
-   deploy:
-     needs:test
-     runs-on:windows-latest
-     steps:
-       -name:get artifacts
-        uses:actions/download-artifacts@v3
+      - name: get code
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: npm ci
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name:dist-files
-       -name:deploy
-        run:echo "deploy"
+          name: dist-files
+  test:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: npm ci
+      - name: run tests
+        run: npm run test
+   deploy:
+     needs: test
+     runs-on: windows-latest
+     steps:
+       - name: get artifacts
+         uses: actions/download-artifacts@v3
+         with:
+          name: dist-files
+       - name: deploy
+         run: echo "deploy"
      
     
   
