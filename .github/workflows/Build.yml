@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: get code
         uses: actions/checkout@v3
-      - name: install dependencies
-        run: npm install
+      #- name: install dependencies
+      #  run: npm install
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: get code
         uses: actions/checkout@v3
-      - name: install dependencies
-        run: npm ci
+      #- name: install dependencies
+      #  run: npm ci
       - name: run tests
         run: npm run test
   deploy:
