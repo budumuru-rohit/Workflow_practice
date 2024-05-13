@@ -25,16 +25,14 @@ jobs:
         run: npm ci
       - name: run tests
         run: npm run test
-   deploy:
-     needs: test
-     runs-on: windows-latest
-     steps:
-       - name: get artifacts
-         uses: actions/download-artifacts@v3
-         with:
+  deploy:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - name: get artifacts
+        uses: actions/download-artifacts@v3
+        with:
           name: dist-files
-       - name: deploy
-         run: echo "deploy"
-     
-    
-  
+      - name: deploy
+        runs: |
+          echo "deploy"
