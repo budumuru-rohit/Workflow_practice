@@ -10,7 +10,7 @@ jobs:
       - name: get code
         uses: actions/checkout@v3
       - name: install dependencies
-        run: npm ci
+        run: npm install
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
