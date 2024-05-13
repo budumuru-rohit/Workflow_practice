@@ -34,5 +34,4 @@ jobs:
         with:
           name: dist-files
       - name: deploy
-        runs: |
-          echo "deploy"
+        run: echo "deploy"
