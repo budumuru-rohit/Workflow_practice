@@ -5,12 +5,12 @@ on:
       - master
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: get code
         uses: actions/checkout@v3
-      #- name: install dependencies
-      #  run: npm install
+      - name: install dependencies
+        run: npm install
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -18,17 +18,17 @@ jobs:
           path: dist
   test:
     needs: build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: get code
         uses: actions/checkout@v3
-      #- name: install dependencies
-      #  run: npm ci
+      - name: install dependencies
+        run: npm ci
       - name: run tests
         run: npm run test
   deploy:
     needs: test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: get artifacts
         uses: actions/download-artifacts@v3
