@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v3
       - name: install dependencies
         run: npm install
+        working-directory: 04 Practice Project (Start)\package.json
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -24,6 +25,7 @@ jobs:
         uses: actions/checkout@v3
       - name: install dependencies
         run: npm ci
+        working-directory: 04 Practice Project (Start)\package.json
       - name: run tests
         run: npm run test
   deploy:
