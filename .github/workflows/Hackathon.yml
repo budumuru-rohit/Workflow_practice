@@ -1,25 +1,46 @@
 name: Extract Pull PR and DE number on merge
 
-on:
- push:
-  branches:
-   - master
+on: 
+  pull_request: 
+    types: [closed] 
+    branches: 
+      - master
+    # Only trigger the workflow if the pull request is merged 
+    # Use the "pull_request.merged" property to check if the pull request is merged 
+    # Use the "if" expression to conditionally execute the job 
+   
+jobs: 
+  extract_pr_us: 
+    runs-on: windows-latest 
+    if: github.event.pull_request.merged == true 
+    steps: 
+      - name: Get Pull Request URL 
+        id: pr_url 
+        run: | 
+          echo "::set-output name=url::${{ github.event.pull_request.html_url }}" 
 
-jobs:
- extract_Us_Pr_Number:
-  runs-on: windows-latest
-  steps:
-   - name: Extract User Story Number and PR Url
-     run: | 
-          echo "Pull Request URL: ${{ github.event.pull_request.html_url }}" 
-          for /f "tokens=2 delims=_" %%i in ("${{ github.event.pull_request.head.ref }}") do set source_branch=%%i 
-          echo "Source Branch: %source_branch%" 
-          echo "::set-output name=pr_url::${{ github.event.pull_request.html_url }}" 
-          echo "::set-output name=source_branch::%source_branch%" 
+      - name: Get Source Branch Name 
+        id: source_branch 
+        run: | 
+          echo "::set-output name=branch::${{ github.event.pull_request.head.ref }}" 
 
-  outputs: 
-      pr_url: ${{ steps.extract_Us_Pr_Number.outputs.pr_url }} 
-      source_branch: ${{ steps.extract_Us_Pr_Number.outputs.source_branch}} 
+      - name: Get Pull Request Number 
+        id: pr_number 
+        run: | 
+          echo "::set-output name=number::${{ github.event.pull_request.number }}" 
 
-        
-      
+      - name: Defect Us Number 
+        id: Us_number
+        run: | 
+          branch_name=${{ github.event.pull_request.head.ref }} 
+          Us_number =$(echo $branch_name | cut -d'/' -f2 | cut -d'_' -f1) 
+          echo "::set-output name= Us_number ::$Us_number" 
+
+      - name: Use Pull Request URL, Branch Name, and Number 
+        run: | 
+          echo "Pull Request URL: ${{ steps.pr_url.outputs.url }}" 
+          echo "Source Branch Name: ${{ steps.source_branch.outputs.branch }}" 
+          echo "Pull Request Number: ${{ steps.pr_number.outputs.number }}" 
+          echo "US Number: ${{ steps.Us_number.outputs.Us_number }}" 
+
+ 
