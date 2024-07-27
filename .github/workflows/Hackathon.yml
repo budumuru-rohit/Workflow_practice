@@ -1,0 +1,27 @@
+name: Extract Pull PR and DE number on merge
+
+on:
+ push:
+  branches:
+   - master
+
+jobs:
+ extract_Us_Pr_Number:
+  runs-on: windows-latest
+  steps:
+   - name: Extract User Story Number and PR Url
+     run: | 
+      $source_branch="${{ github.event.pull_request.head.ref }}".Split('/')[1] 
+      if ($source_branch -match '^[Dd][Ee][0-9]+') { 
+      echo "Pull Request URL: ${{ github.event.pull_request.html_url }}" 
+      echo "User Story Number: $matches[0]" 
+      echo "::set-output name=pr_url::${{ github.event.pull_request.html_url }}" 
+      echo "::set-output name=us_number::$matches[0]" 
+          } 
+
+  outputs: 
+    pr_url: ${{ steps.extract_Us_Pr_Number.outputs.pr_url }} 
+    us_number: ${{ steps.extract_Us_Pr_Number.outputs.us_number }}
+
+        
+      
