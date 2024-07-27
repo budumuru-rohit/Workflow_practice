@@ -11,17 +11,15 @@ jobs:
   steps:
    - name: Extract User Story Number and PR Url
      run: | 
-      $source_branch="${{ github.event.pull_request.head.ref }}".Split('/')[1] 
-      if ($source_branch -match '^[Dd][Ee][0-9]+') { 
-      echo "Pull Request URL: ${{ github.event.pull_request.html_url }}" 
-      echo "User Story Number: $matches[0]" 
-      echo "::set-output name=pr_url::${{ github.event.pull_request.html_url }}" 
-      echo "::set-output name=us_number::$matches[0]" 
-          } 
+          echo "Pull Request URL: ${{ github.event.pull_request.html_url }}" 
+          for /f "tokens=2 delims=_" %%i in ("${{ github.event.pull_request.head.ref }}") do set source_branch=%%i 
+          echo "Source Branch: %source_branch%" 
+          echo "::set-output name=pr_url::${{ github.event.pull_request.html_url }}" 
+          echo "::set-output name=source_branch::%source_branch%" 
 
   outputs: 
-    pr_url: ${{ steps.extract_Us_Pr_Number.outputs.pr_url }} 
-    us_number: ${{ steps.extract_Us_Pr_Number.outputs.us_number }}
+      pr_url: ${{ steps.extract_Us_Pr_Number.outputs.pr_url }} 
+      source_branch: ${{ steps.extract_Us_Pr_Number.outputs.source_branch}} 
 
         
       
