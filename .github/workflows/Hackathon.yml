@@ -33,7 +33,7 @@ jobs:
         id: Us_number
         run: | 
           branch_name=${{ github.event.pull_request.head.ref }} 
-          $Us_number = ($branch_name -split '/')[1] -split '_')[0]
+          $Us_number = (($branch_name -split '/')[1] -split '_')[0]
           echo "::set-output name= Us_number ::$Us_number" 
 
       - name: Use Pull Request URL, Branch Name, and Number 
