@@ -5,7 +5,7 @@ import './HelpBox.css';
 function HelpBox({ title, text }) {
   return (
     <article className="help-box">
-      {/* This is a comment in JSX */}
+      {/* This is a comment in JSX-again */}
       <h2>{title}</h2>
       <p>{text}</p>
     </article>
