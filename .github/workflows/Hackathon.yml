@@ -33,11 +33,14 @@ jobs:
 
       - name: Defect Us Number 
         id: Us_number
-        run: | 
-          $branch_name = "${env:BRANCH_NAME}"
+        shell: pwsh
+        run: |
+          $branch_name = $env:BRANCH_NAME
+          Write-Output "Branch Name: $branch_name"
           $Us_number = (($branch_name -split '/')[1] -split '_')[0]
-          echo "::set-output name= Us_number ::$Us_number" 
-
+          Write-Output "US Number: $Us_number"
+          Write-Output "::set-output name=Us_number::$Us_number"
+          
       - name: Use Pull Request URL, Branch Name, and Number 
         run: | 
           echo "Pull Request URL: ${{ steps.pr_url.outputs.url }}" 
